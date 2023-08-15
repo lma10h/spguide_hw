@@ -1,0 +1,2 @@
+dp[length of string][sum of string] = count of numbers
+динамика по префиксу на строках
