@@ -1,4 +1,5 @@
 #include <iostream>
+#include <list>
 #include <sstream>
 #include <vector>
 
@@ -58,11 +59,47 @@ void dfs(int v, int color)
     }
 }
 
+void bfs(int v)
+{
+    struct Node {
+        int v = 0;
+        int color = 0; // requested color
+    };
+
+    list<Node> q;
+    q.push_back({v, 0});
+
+    while (!q.empty()) {
+        Node node = q.front();
+        q.pop_front();
+
+        if (used[node.v]) {
+            if (node.color != colors[node.v]) {
+                isImpossible = true;
+            }
+
+            continue;
+        }
+
+        used[node.v] = 1;
+        colors[node.v] = node.color;
+
+        for (int vi : g[node.v]) {
+            if (used[vi]) {
+                continue;
+            }
+
+            q.push_back({vi, !node.color});
+        }
+    }
+}
+
 int main()
 {
     readInput();
 
-    dfs(0, 0);
+    // dfs(0, 0);
+    bfs(0);
 
     if (isImpossible) {
         cout << -1 << "\n";
