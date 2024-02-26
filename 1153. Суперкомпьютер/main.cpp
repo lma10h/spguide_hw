@@ -1,40 +1,54 @@
-https://acm.timus.ru/problem.aspx?space=1&num=1153
+def solve(S):
+	#по математике S = n * (n + 1) / 2
+	#n ^ 2 + n - S = 0
+	#n1 = (-1 + sqrt(D)) / 2
+	#n2 = (-1 - sqrt(D)) / 2
+	#n2 не рассматриваем, т.к.оно меньше 0
 
-#include <iostream>
-#include <vector>
+	#D = b ^ 2 - 4 * a * c
+	D = 1+8*S
 
-using namespace std;
-
-int main()
-{
-    // calculation
-    D = 500;
-
-    // sqrt(D) by BS
-    N = D+1;
+	#будем искать корень D бинарным поиском
+	#т.е.представим, что у нас есть массив значений - это наша ось Y
+	#в этом массиве нужно найти наше D
+	#для каждого "y" будем проверять y ^ 2 == D
+	#и идти вниз / вверх как при обычном банирном поиске
+	#
+	#^ Y
+	#|
+	#| D + 1
+	#|
+	#| D
+	#|
+	#|
+	# 0 -- -- -- -- --> X
     
-    x=-1
-    l=0, r=N; // [l, r]
-    // K[l] <= D && D < K[r]
-    while (l != r - 1) {
-        m = (l+r)/2
-        Km = m*m
-        
-        if (Km == D) {
-          x=m
-          break;
-        }
-        
-        if (D < Km) {
-            r=m
-        } else {
-            l=m
-        }
-    }
+	N = D+1
+	d = 0
     
-    // x*x == D
-    n = (-b + x)/(2*a)
-    // SUM(1...n) == S
+	l = 0
+	r = N
 
-    return 0;
-}
+	#K[l] <= D &&D < K[r]
+	while (l != r-1):
+		m = (l+r) // 2
+		Km = m*m
+	if (Km == D):
+		d = m
+		break
+	if (Km <= D):
+		l=m
+	else:
+		r=m
+	n = int((-1+d) // 2)
+	return n
+
+S = int(input())
+n = solve(S)
+print(n)
+
+#r = 10 * *600
+#S = r * (r + 1) // 2
+#n = solve(S)
+#print(n == r)
+
